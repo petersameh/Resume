@@ -1,0 +1,140 @@
+Use Resume
+Create Table PersonalInformation
+(
+	Id int primary Key Identity(1,1), 
+	Title nvarchar(max) not null, 
+	Name nvarchar(max) not null, 
+	NameAbbreviation nvarchar(max) not null,
+	Phone nvarchar(max) not null,
+	MilitaryService nvarchar(max) not null,
+	Email nvarchar(max) not null,
+	Website nvarchar(max) not null,
+	About nvarchar(max) not null
+);
+Create Table SocialProfiles
+(
+	Id int primary Key Identity(1,1), 
+	SocialNetworkName nvarchar(max) not null, 
+	IconUrl nvarchar(max) not null, 
+	ProfileUrl nvarchar(max) not null
+);
+Create Table Experiences
+(
+	Id int primary Key Identity(1,1), 
+	JobTitle nvarchar(max) not null, 
+	CompanyName nvarchar(max) not null, 
+	DateFrom DateTime not null,
+	DateTo DateTime null,
+	Description nvarchar(max) not null,
+);
+Create Table Educations
+(
+	Id int primary Key Identity(1,1), 
+	Degree nvarchar(max) not null, 
+	InstitutionName nvarchar(max) not null, 
+	DateFrom DateTime not null,
+	DateTo DateTime null,
+	Description nvarchar(max) not null,
+	GPAScore decimal(18,2) not null
+);
+Create Table Skills
+(
+	Id int primary Key Identity(1,1), 
+	SkillName nvarchar(max) not null, 
+	Progress decimal not null,
+	IsPrimary bit not null
+);
+Create Table Blogs
+(
+	Id int primary Key Identity(1,1), 
+	Title nvarchar(max) not null, 
+	Description nvarchar(max) not null, 
+	Url nvarchar(max) not null, 
+	PublishDate DateTime not null,
+	IsVideo bit not null
+);
+alter table PersonalInformation 
+add CoverPhotoUrl nvarchar(max)
+alter table PersonalInformation 
+add ProfilePictureUrl nvarchar(max)
+Alter table Blogs 
+Add ImageUrl nvarchar(max) null
+
+/* Insertions */
+/* Personal Information */
+Insert into PersonalInformation (Title,Name,NameAbbreviation,Phone,MilitaryService,Email,Website,About,CoverPhotoUrl,ProfilePictureUrl)
+Values('Software Engineer - Backend Developer','Peter Sameh Mohareb','Peter Sameh','+20 111 309 3350','Served','me@petersameh.com','petersameh.com','Graduated from Computer Science - Helwan University. Problem-solving programmer seeking a position where I can apply and merge creativity and professional coding skills together in a day-to-day challenging problems.','~/images/cover_bg_3.jpg','~/images/user-3.jpg')
+
+
+Insert into PersonalInformation (Title,Name,NameAbbreviation,Phone,MilitaryService,Email,Website,About,CoverPhotoUrl,ProfilePictureUrl)
+Values('Software Engineer - Backend Developer','Peter Sameh Mohareb','Peter Sameh Mohareb','+20 111 309 3350','Served','me@petersameh.com','petersameh.com','Progamming is my passion, not only my Job. I enjoy being stuck in a difficult bug and trying to solve it. I don''t like Y = 1 as a learning curve. As long as there are challenges and new situations to learn from, I enjoy every single minute. I have more than 2 and half years of experience in .Net , .Net Core and AWS Services.','~/images/cover_bg_3.jpg','~/images/user-3.jpg')
+
+/* Social Profiles */
+Insert into SocialProfiles (SocialNetworkName,IconUrl,ProfileUrl)
+values
+('LinkedIn','icon-linkedin2','https://linkedin.com/in/petersameh'),
+('CV','icon-download','https://drive.google.com/file/d/1W5DskPQ9QzLDJntWygYo3Mv58EY4CRlW/view?usp=sharing')
+
+
+/* Experiences */
+Insert into Experiences (JobTitle,CompanyName,DateFrom,DateTo,Description)
+Values 
+('Backend Developer','Vezeeta','2019-12-01',null,'Working as a Backend Developer in the Payment and Country Expansion Squad, responsible for introducing any new payment methods or expanding in a new Country. Using latest .Net Core with AWS Services.'),
+('Backend Developer / DevOps','Axlr8','2018-12-01','2019-12-01','Working as a Backend Developer / DevOps . Responsible for a Healthcare project and Introducing any new CI/CD Pipeline.'),
+('MVC .Net Developer','Ordera','2018-03-18','2018-11-01','Worked as a Junior .Net MVC Developer, responsible for building a Fintech startup from scratch'),
+('Intern - CRM Developer','LinkDev','','','Worked as CRM developer responsible for Alexandria Government project.')
+
+
+/* Education */
+Insert into Educations (Degree,InstitutionName,DateFrom,DateTo,Description,GPAScore)
+Values 
+('Bachelors Degree','Helwan University','2012-01-01','2016-01-01','Graduated with a Very Good Degree',3.14)
+
+
+/* Skills */
+Insert into Skills (SkillName,Progress,IsPrimary)
+Values
+('.Net',90,1),
+('.Net Core',90,1),
+('SQL',90,1),
+('MySQL',90,1),
+('ElasticSearch',75,1),
+('AWS Lambdas',90,1),
+('AWS SNS',95,1),
+('AWS SQS',95,1),
+('HTML5/CSS3',80,0),
+('JavaScript',50,0),
+('PHP',60,0),
+('Java',60,0)
+
+/* Blogs */
+insert into Blogs (Title,Description,Url,PublishDate,IsVideo)
+Values
+('.Net Reflection','This is an article that explains the .Net Reflection with an Automapper example.','https://link.medium.com/9wimXjXBKfb','2019-11-05',0),
+('C++ Series','Explaining C++ Operators.','https://www.youtube.com/embed/9cQzOG2V86M','2015-08-07',1)
+update blogs set imageUrl = '~/images/portfolio-1.jpg' where IsVideo = 0
+
+/* Sunday May 30*/
+Create table Responsibilities
+(
+  Id int Primary Key identity,
+  ExperienceId int null, 
+  Body nvarchar(max) not null,
+  Foreign Key (ExperienceId) References Experiences(Id) 
+)
+
+insert into Responsibilities (ExperienceId,Body)
+values 
+(1, 'Responsible for Implementing new payment methods for Vezeeta in Payment Squad'),
+(1,'Integrated with STC - Qitaf as a payment method in Saudi Arabia'),
+(1,'Integrated with Beyonic - MPESA as a payment method in Kenya'),
+(1, 'Implemented and integrated with a Loyalty Program'),
+(1,'Introduced the online payment as an option in different parts of Vezeeta'),
+(1,'Most of the payment methods were used asynchronously using AWS Lambdas, AWS Queues and AWS SNS Topics '),
+
+(3,'Introduced Vouchers that are generated on demand with different values'),
+(3,'Introduced Wallets for users'),
+
+(2,'Revamping components to be faster'),
+(2,'Automating drug updates into the database'),
+(2,'Automating backend and frontend builds using Azure pipeline and AWS CodeDeploy')
